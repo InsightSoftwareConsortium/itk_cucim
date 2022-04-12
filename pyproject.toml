@@ -9,6 +9,18 @@ readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: Apache Software License"]
 dynamic = ["version", "description"]
+requires-python = ">=3.7"
+dependencies = [
+    "itk >=5.3rc4",
+    "cucim >=22.4.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest >=2.7.3",
+    "pytest-cov",
+]
+doc = ["sphinx"]
 
 [project.urls]
 Home = "https://github.com/InsightSoftwareConsortium/itk-cucim"
