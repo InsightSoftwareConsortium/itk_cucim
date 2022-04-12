@@ -1,4 +1,4 @@
-# itk-cucim
+# itk_cucim
 
 ## Development
 

@@ -23,4 +23,4 @@ test = [
 doc = ["sphinx"]
 
 [project.urls]
-Home = "https://github.com/InsightSoftwareConsortium/itk-cucim"
+Home = "https://github.com/InsightSoftwareConsortium/itk_cucim"
