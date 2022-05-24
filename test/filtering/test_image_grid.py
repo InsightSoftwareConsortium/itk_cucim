@@ -13,11 +13,8 @@ class TestImageGrid:
         # uint8 data
         image_u8 = itk.imread(data)
         self.image = image_u8
-
-        Caster = itk.CastImageFilter[itk.itkImagePython.itkImageUC3,
-                                     itk.itkImagePython.itkImageF3].New()
         # float32 data
-        self.image_f32 = Caster(image_u8)
+        self.image_f32 = image_u8.astype(np.float32)
 
     @pytest.mark.parametrize("floating", [False, True])
     @pytest.mark.parametrize("shrink_factors", [1, 2, 3, 7, (4, 3, 2)])
