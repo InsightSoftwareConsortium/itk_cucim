@@ -6,10 +6,12 @@ import cucim.skimage
 import cupy as cp
 import itk
 import numpy as np
+from itk.support import helpers
 
 from ._discrete_gaussian import discrete_gaussian_filter
 
 
+@helpers.accept_array_like_xarray_torch
 def cucim_discrete_gaussian_image_filter(*args, **kwargs):
     input_image = args[0]
     ref_filt = itk.DiscreteGaussianImageFilter.New(*args, **kwargs)
@@ -58,6 +60,7 @@ def cucim_discrete_gaussian_image_filter(*args, **kwargs):
     return wrapper.GetOutput()
 
 
+@helpers.accept_array_like_xarray_torch
 def cucim_median_image_filter(*args, **kwargs):
     input_image = args[0]
     ref_filt = itk.MedianImageFilter.New(*args, **kwargs)

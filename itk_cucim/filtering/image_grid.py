@@ -1,10 +1,11 @@
 """cuCIM accelerated filters for the ITKImageGrid module."""
 import cupy as cp
 import itk
-
 from cucim.skimage.transform import downscale_local_mean
+from itk.support import helpers
 
 
+@helpers.accept_array_like_xarray_torch
 def cucim_bin_shrink_image_filter(*args, **kwargs):
     input_image = args[0]
     ref_kwargs = kwargs.copy()
