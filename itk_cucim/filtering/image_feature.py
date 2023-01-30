@@ -6,10 +6,12 @@ import cucim.skimage
 import cupy as cp
 import itk
 import numpy as np
+from itk.support import helpers
 
 from ._discrete_gaussian import discrete_gaussian_derivative_filter
 
 
+@helpers.accept_array_like_xarray_torch
 def cucim_discrete_gaussian_derivative_image_filter(*args, **kwargs):
     input_image = args[0]
     ref_filt = itk.DiscreteGaussianDerivativeImageFilter.New(*args, **kwargs)

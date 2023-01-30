@@ -19,6 +19,25 @@ class TestImageFeatures:
         # float32 data
         self.image_f32 = Caster(image_u8)
 
+    def _compare_discrete_gaussian_derivative(self, image, **kwargs):
+        floating = np.dtype(image.dtype).kind == 'f'
+        gaussian_ref = itk.discrete_gaussian_derivative_image_filter(
+            image, **kwargs
+        )
+        gaussian_cucim = image_feature.cucim_discrete_gaussian_derivative_image_filter(  # noqa
+            image, **kwargs
+        )
+        comparison = itk.comparison_image_filter(
+            gaussian_ref, gaussian_cucim, verify_input_information=True
+        )
+        if not floating:
+            # values may differ by up to 1 due to integer rounding differences
+            gaussian_ref = np.asarray(gaussian_ref, dtype=np.float32)
+            gaussian_cucim = np.asarray(gaussian_cucim, dtype=np.float32)
+            assert np.max(np.abs(gaussian_ref - gaussian_cucim)) <= 1
+        else:
+            assert np.max(comparison) < 1e-2
+
     # TODO: resolve failures for `floating = False` case
     #       (a subset of cases currently fail with a difference of 255)
     @pytest.mark.parametrize("floating", [True])
@@ -41,20 +60,15 @@ class TestImageFeatures:
             use_image_spacing=use_image_spacing,
             normalize_across_scale=normalize,
         )
-        gaussian_ref = itk.discrete_gaussian_derivative_image_filter(
-            image, **kwargs
-        )
-        gaussian_cucim = image_feature.cucim_discrete_gaussian_derivative_image_filter(  # noqa
-            image, **kwargs
-        )
+        self._compare_discrete_gaussian_derivative(image, **kwargs)
 
-        comparison = itk.comparison_image_filter(
-            gaussian_ref, gaussian_cucim, verify_input_information=True
+    def test_discrete_gaussian_derivative_image_filter_numpy_input(self):
+        rng = np.random.default_rng()
+        image = rng.standard_normal((512, 256), dtype=np.float32)
+        kwargs = dict(
+            variance=(3, 1),
+            order=(2, 1),
+            use_image_spacing=False,
+            normalize_across_scale=False,
         )
-        if not floating:
-            # values may differ by up to 1 due to integer rounding differences
-            gaussian_ref = np.asarray(gaussian_ref, dtype=np.float32)
-            gaussian_cucim = np.asarray(gaussian_cucim, dtype=np.float32)
-            assert np.max(np.abs(gaussian_ref - gaussian_cucim)) <= 1
-        else:
-            assert np.max(comparison) < 1e-2
+        self._compare_discrete_gaussian_derivative(image, **kwargs)
