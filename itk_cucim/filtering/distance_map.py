@@ -152,8 +152,6 @@ def cucim_signed_maurer_distance_map_image_filter(*args, **kwargs):
             squared_distance=ref_filt.GetSquaredDistance(),
             inside_is_positive=ref_filt.GetInsideIsPositive(),
         )
-        print(f"{output_array.dtype=}")
-        print(f"{cu_output_array.dtype=}")
         output_array[:] = cu_output_array.get()[:]
     wrapper.SetPyGenerateData(generate_data)
 
