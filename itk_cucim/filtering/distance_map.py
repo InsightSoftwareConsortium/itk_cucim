@@ -118,6 +118,8 @@ def cucim_signed_maurer_distance_map_image_filter(*args, **kwargs):
 
     ref_filt = itk.SignedMaurerDistanceMapImageFilter.New(*args, **kwargs)
     wrapper = itk.PyImageFilter.New(input_image)
+    if ref_filt.GetBackgroundValue() != 0:
+        raise ValueError("only background_value=0 is currently supported")
 
     def generate_output_information(wrapper):
         ref_filt.UpdateOutputInformation()

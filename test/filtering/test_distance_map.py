@@ -49,6 +49,18 @@ class TestDistanceMap:
         )
         self._compare_signed_maurer_distance(image, **kwargs)
 
+    def test_signed_maurer_distance_map_image_filter_nonzero_background(self):
+        image = self.image
+        kwargs = dict(
+            squared_distance=False,
+            inside_is_positive=False,
+            background_value=1,
+        )
+        with pytest.raises(ValueError):
+            distance_map.cucim_signed_maurer_distance_map_image_filter(
+                image, **kwargs
+            )
+
     def test_signed_maurer_distance_map_image_filter_numpy_input(self):
         image = itk.array_view_from_image(self.image)
         self._compare_signed_maurer_distance(image, squared_distance=False)
