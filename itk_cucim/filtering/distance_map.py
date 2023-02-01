@@ -67,7 +67,7 @@ def _signed_euclidean_distance_map(
         image = image.astype(bool, copy=False)
 
 
-    footprint = cp.ones((3, 3), dtype=bool)
+    footprint = cp.ones((3, ) * image.ndim, dtype=bool)
     if inside_is_positive:
         image_in = ~image
     else:
