@@ -1,5 +1,7 @@
 # itk_cucim
 
+[![Build, test, package](https://github.com/InsightSoftwareConsortium/itk_cucim/actions/workflows/build-test-package-python.yml/badge.svg)](https://github.com/InsightSoftwareConsortium/itk_cucim/actions/workflows/build-test-package-python.yml)
+
 ## Development
 
 ```
